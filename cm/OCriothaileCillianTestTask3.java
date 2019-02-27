@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
-public class OCriothaileCillianTestTask2 {
+public class OCriothaileCillianTestTask3 {
 
     private  BigDecimal normalRate;
     private  BigDecimal reducedRate;
