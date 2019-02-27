@@ -204,4 +204,45 @@ public class OCriothaileCillianTestTask2 {
         assertEquals(theRate.calculate(new Period(5,9)),8);
     }
 
+    @Test
+    public void test_22_calculate_management_minimum_charge_3_euro_reduced(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,7)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(1);
+        normalRate = new BigDecimal(8);
+        Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(2,3)),3);
+    }
+
+    @Test
+    public void test_23_calculate_management_minimum_charge_3_euro_normal(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,7)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(1);
+        normalRate = new BigDecimal(2);
+        Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(8,9)),3);
+    }
+
+
+    @Test
+    public void test_24_calculate_management_minimum_charge_3_euro_free_period(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,7)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(1);
+        normalRate = new BigDecimal(2);
+        Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(12,14)),3);
+    }
+
+
+    @Test
+    public void test_25_calculate_management_minimum_charge_3_euro_all_periods(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(1);
+        normalRate = new BigDecimal(1);
+        Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(5,8)),3);
+    }
 }
