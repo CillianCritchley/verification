@@ -246,4 +246,48 @@ public class OCriothaileCillianTestTask3 {
         assertEquals(theRate.calculate(new Period(5,8)),3);
     }
 
+    @Test
+    public void test_26_calculate_student_reduction_applied_normal_period(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(1);
+        normalRate = new BigDecimal(5);
+        Rate theRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(8,10)),new BigDecimal(8.87));
+    }
+
+
+    @Test
+    public void test_27_calculate_student_reduction_applied_reduced_period(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(3);
+        normalRate = new BigDecimal(5);
+        Rate theRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(2,5)),new BigDecimal(8.12));
+    }
+
+    @Test
+    public void test_28_calculate_student_reduction_applied_all_periods(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(3);
+        normalRate = new BigDecimal(5);
+        Rate theRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(4,8)),new BigDecimal(7.37));
+    }
+
+    @Test
+    public void test_28_calculate_student_reduction_not_applied_under_correct_limit(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(3);
+        normalRate = new BigDecimal(5);
+        Rate theRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(2,3)),new BigDecimal(3));
+    }
+
+
+
+
 }
