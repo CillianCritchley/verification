@@ -210,7 +210,7 @@ public class OCriothaileCillianTestTask3 {
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
         reducedRate = new BigDecimal(1);
         normalRate = new BigDecimal(8);
-        Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
         assertEquals(theRate.calculate(new Period(2,3)),3);
     }
 
@@ -220,7 +220,7 @@ public class OCriothaileCillianTestTask3 {
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
         reducedRate = new BigDecimal(1);
         normalRate = new BigDecimal(2);
-        Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
         assertEquals(theRate.calculate(new Period(8,9)),3);
     }
 
@@ -231,7 +231,7 @@ public class OCriothaileCillianTestTask3 {
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
         reducedRate = new BigDecimal(1);
         normalRate = new BigDecimal(2);
-        Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
         assertEquals(theRate.calculate(new Period(12,14)),3);
     }
 
@@ -242,7 +242,9 @@ public class OCriothaileCillianTestTask3 {
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
         reducedRate = new BigDecimal(1);
         normalRate = new BigDecimal(1);
-        Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
         assertEquals(theRate.calculate(new Period(5,8)),3);
     }
+
+
 }
