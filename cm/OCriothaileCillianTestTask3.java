@@ -128,7 +128,7 @@ public class OCriothaileCillianTestTask3 {
          normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,9)));
 
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(4,8)),16);
+        assertEquals(theRate.calculate(new Period(4,8)),new BigDecimal(16));
     }
 
     @Test
@@ -137,7 +137,7 @@ public class OCriothaileCillianTestTask3 {
          normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,9)));
 
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(11,18)),0);
+        assertEquals(theRate.calculate(new Period(11,18)),new BigDecimal(0));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -171,7 +171,7 @@ public class OCriothaileCillianTestTask3 {
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,9)));
         normalRate = new BigDecimal(4);
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(7,9)),0);
+        assertEquals(theRate.calculate(new Period(7,9)),new BigDecimal(0));
     }
 
 
@@ -181,7 +181,7 @@ public class OCriothaileCillianTestTask3 {
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
         normalRate = new BigDecimal(4);
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(7,11)),4);
+        assertEquals(theRate.calculate(new Period(7,11)),new BigDecimal(4));
     }
 
 
@@ -191,7 +191,7 @@ public class OCriothaileCillianTestTask3 {
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
         reducedRate = new BigDecimal(4);
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(1,5)),4);
+        assertEquals(theRate.calculate(new Period(1,5)),new BigDecimal(4));
     }
 
     @Test
@@ -201,7 +201,7 @@ public class OCriothaileCillianTestTask3 {
         reducedRate = new BigDecimal(4);
         normalRate = new BigDecimal(8);
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(5,9)),8);
+        assertEquals(theRate.calculate(new Period(5,9)),new BigDecimal(8));
     }
 
     @Test
@@ -211,7 +211,7 @@ public class OCriothaileCillianTestTask3 {
         reducedRate = new BigDecimal(1);
         normalRate = new BigDecimal(8);
         Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(2,3)),3);
+        assertEquals(theRate.calculate(new Period(2,3)),new BigDecimal(3));
     }
 
     @Test
@@ -221,7 +221,7 @@ public class OCriothaileCillianTestTask3 {
         reducedRate = new BigDecimal(1);
         normalRate = new BigDecimal(2);
         Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(8,9)),3);
+        assertEquals(theRate.calculate(new Period(8,9)),new BigDecimal(3));
     }
 
 
@@ -232,7 +232,7 @@ public class OCriothaileCillianTestTask3 {
         reducedRate = new BigDecimal(1);
         normalRate = new BigDecimal(2);
         Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(12,14)),3);
+        assertEquals(theRate.calculate(new Period(12,14)),new BigDecimal(3));
     }
 
 
@@ -245,6 +245,5 @@ public class OCriothaileCillianTestTask3 {
         Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
         assertEquals(theRate.calculate(new Period(5,8)),3);
     }
-
 
 }
