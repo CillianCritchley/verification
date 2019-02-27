@@ -288,6 +288,23 @@ public class OCriothaileCillianTestTask3 {
     }
 
 
+    @Test
+    public void test_29_calculate_staff_max_limit(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(3);
+        normalRate = new BigDecimal(5);
+        Rate theRate = new Rate(CarParkKind.STAFF, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(2,23)),new BigDecimal(16));
+    }
 
-
+    @Test
+    public void test_29_calculate_staff_calculates_correctly_under_max_limit(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal(3);
+        normalRate = new BigDecimal(5);
+        Rate theRate = new Rate(CarParkKind.STAFF, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(5,8)),new BigDecimal(8));
+    }
 }
