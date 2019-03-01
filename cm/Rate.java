@@ -1,6 +1,7 @@
 package cm;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +26,8 @@ public class Rate {
         if (normalRate.compareTo(BigDecimal.ZERO) < 0 || reducedRate.compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("A rate cannot be negative");
         }
-        if (normalRate.compareTo(reducedRate) <= 0) {
-            throw new IllegalArgumentException("The normal rate cannot be less or equal to the reduced rate");
+        if (normalRate.compareTo(reducedRate) < 0) {
+            throw new IllegalArgumentException("The normal rate cannot be less than the reduced rate");
         }
         if (!isValidPeriods(reducedPeriods) || !isValidPeriods(normalPeriods)) {
             throw new IllegalArgumentException("The periods are not valid individually");
@@ -92,10 +93,57 @@ public class Rate {
         return isValid;
     }
     public BigDecimal calculate(Period periodStay) {
+
+
         int normalRateHours = periodStay.occurences(normal);
         int reducedRateHours = periodStay.occurences(reduced);
-        return (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
-                this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours)));
+        BigDecimal rate = (this.hourlyNormalRate.multiply(BigDecimal.valueOf(normalRateHours))).add(
+                this.hourlyReducedRate.multiply(BigDecimal.valueOf(reducedRateHours))).setScale(2,RoundingMode.HALF_UP);
+
+
+        if (kind == CarParkKind.VISITOR)
+        {
+           if(rate.compareTo(new BigDecimal("8")) <= 0)
+           {
+               return (new BigDecimal("0.00"));
+           }
+           else
+           {
+               rate = rate.subtract(new BigDecimal("8"));
+               rate = rate.divide(new BigDecimal("2"), 2, BigDecimal.ROUND_HALF_UP);
+
+           }
+        }
+        else if(kind == CarParkKind.MANAGEMENT)
+        {
+            if(rate.compareTo(new BigDecimal("3.00")) < 0)
+            {
+                rate = new BigDecimal("3.00");
+            }
+        }
+        else if(kind == CarParkKind.STUDENT)
+        {
+            if(rate.compareTo(new BigDecimal("5.50")) <=0)
+            {
+                return rate;
+            }
+            else{
+                BigDecimal tempRate = rate.subtract(new BigDecimal("5.50"));
+                tempRate = tempRate.multiply(new BigDecimal("0.75")).setScale(2, RoundingMode.HALF_UP);
+                rate = tempRate.add(new BigDecimal("5.50"));
+            }
+        }
+        else if(kind == CarParkKind.STAFF)
+        {
+            if(rate.compareTo(new BigDecimal("16.00")) > 0)
+            {
+                rate = new BigDecimal("16.00");
+            }
+        }
+
+        return rate;
+
+
     }
 
 }

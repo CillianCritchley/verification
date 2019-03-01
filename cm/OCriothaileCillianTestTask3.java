@@ -20,8 +20,8 @@ public class OCriothaileCillianTestTask3 {
 
     @Before
     public void setUp() throws Exception {
-      normalRate = new BigDecimal(10);
-        reducedRate = new BigDecimal(6);
+      normalRate = new BigDecimal("10");
+        reducedRate = new BigDecimal("6");
        normalPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,2)));
       reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(4,5)));
     }
@@ -37,7 +37,17 @@ public class OCriothaileCillianTestTask3 {
     @Test
     public void test_2_normalrate_0(){
 
-        BigDecimal normalRate = new BigDecimal(0);
+         normalRate = new BigDecimal("0");
+         reducedRate = normalRate;
+
+        new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_2a_normalrate_less_than_reduced(){
+
+        normalRate = new BigDecimal("1");
+        reducedRate = new BigDecimal("2");
 
         new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
     }
@@ -45,14 +55,16 @@ public class OCriothaileCillianTestTask3 {
     @Test
     public void test_3_reducedrate_0(){
 
-        BigDecimal reducedRate = new BigDecimal(0);
+        BigDecimal reducedRate = new BigDecimal("0");
 
         new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
     }
 
     @Test
     public void test_4_reducedperiod_start_0(){
-        ArrayList<Period>  reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(0,3)));
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(0,3)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList(new Period(11,12)));
+
 
         new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
     }
@@ -68,14 +80,14 @@ public class OCriothaileCillianTestTask3 {
 
     @Test(expected = IllegalArgumentException.class)
     public void test_5_reducedrate_less_than_0(){
-        BigDecimal reducedRate = new BigDecimal(-1);
+        BigDecimal reducedRate = new BigDecimal("-1");
 
         new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void test_6_normalrate_less_than_0(){
-        BigDecimal normalRate = new BigDecimal(-1);
+        BigDecimal normalRate = new BigDecimal("-1");
 
         new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
     }
@@ -128,7 +140,7 @@ public class OCriothaileCillianTestTask3 {
          normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,9)));
 
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(4,8)),new BigDecimal(16));
+        assertEquals(theRate.calculate(new Period(4,8)),new BigDecimal("4.00"));
     }
 
     @Test
@@ -137,7 +149,7 @@ public class OCriothaileCillianTestTask3 {
          normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,9)));
 
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(11,18)),new BigDecimal(0));
+        assertEquals(theRate.calculate(new Period(11,18)),new BigDecimal("0.00"));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -169,9 +181,10 @@ public class OCriothaileCillianTestTask3 {
     public void test_18_calculate_visitor_free_up_to_8_euro(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,5)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,9)));
-        normalRate = new BigDecimal(4);
+        normalRate = new BigDecimal("4");
+        reducedRate = new BigDecimal("0");
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(7,9)),new BigDecimal(0));
+        assertEquals(theRate.calculate(new Period(7,9)),new BigDecimal("0.00"));
     }
 
 
@@ -179,9 +192,10 @@ public class OCriothaileCillianTestTask3 {
     public void test_19_calculate_visitor_discount_after_8_euro_normal_rate(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,5)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        normalRate = new BigDecimal(4);
+        normalRate = new BigDecimal("4");
+        reducedRate = new BigDecimal("2");
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(7,11)),new BigDecimal(4));
+        assertEquals(theRate.calculate(new Period(7,11)),new BigDecimal("4.00"));
     }
 
 
@@ -189,39 +203,39 @@ public class OCriothaileCillianTestTask3 {
     public void test_20_calculate_visitor_discount_after_8_euro_reduced_rate(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,5)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(4);
+        reducedRate = new BigDecimal("4");
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(1,5)),new BigDecimal(4));
+        assertEquals(theRate.calculate(new Period(1,5)),new BigDecimal("4.00"));
     }
 
     @Test
     public void test_21_calculate_visitor_discount_after_8_euro_both_rates(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,7)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(4);
-        normalRate = new BigDecimal(8);
+        reducedRate = new BigDecimal("4");
+        normalRate = new BigDecimal("8");
         Rate theRate = new Rate(CarParkKind.VISITOR, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(5,9)),new BigDecimal(8));
+        assertEquals(theRate.calculate(new Period(5,9)),new BigDecimal("8.00"));
     }
 
     @Test
     public void test_22_calculate_management_minimum_charge_3_euro_reduced(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,7)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(1);
-        normalRate = new BigDecimal(8);
+        reducedRate = new BigDecimal("1");
+        normalRate = new BigDecimal("8");
         Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(2,3)),new BigDecimal(3));
+        assertEquals(theRate.calculate(new Period(2,3)),new BigDecimal("3.00"));
     }
 
     @Test
     public void test_23_calculate_management_minimum_charge_3_euro_normal(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,7)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(1);
-        normalRate = new BigDecimal(2);
+        reducedRate = new BigDecimal("1");
+        normalRate = new BigDecimal("2");
         Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(8,9)),new BigDecimal(3));
+        assertEquals(theRate.calculate(new Period(8,9)),new BigDecimal("3.00"));
     }
 
 
@@ -229,10 +243,10 @@ public class OCriothaileCillianTestTask3 {
     public void test_24_calculate_management_minimum_charge_3_euro_free_period(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,7)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(1);
-        normalRate = new BigDecimal(2);
+        reducedRate = new BigDecimal("1");
+        normalRate = new BigDecimal("2");
         Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(12,14)),new BigDecimal(3));
+        assertEquals(theRate.calculate(new Period(12,14)),new BigDecimal("3.00"));
     }
 
 
@@ -240,20 +254,20 @@ public class OCriothaileCillianTestTask3 {
     public void test_25_calculate_management_minimum_charge_3_euro_all_periods(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(1);
-        normalRate = new BigDecimal(1);
+        reducedRate = new BigDecimal("1");
+        normalRate = new BigDecimal("1");
         Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(5,8)),3);
+        assertEquals(theRate.calculate(new Period(5,8)),new BigDecimal("3.00"));
     }
 
     @Test
     public void test_26_calculate_student_reduction_applied_normal_period(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(1);
-        normalRate = new BigDecimal(5);
+        reducedRate = new BigDecimal("1");
+        normalRate = new BigDecimal("5");
         Rate theRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(8,10)),new BigDecimal(8.87));
+        assertEquals(theRate.calculate(new Period(8,10)),new BigDecimal("8.88"));
     }
 
 
@@ -261,30 +275,30 @@ public class OCriothaileCillianTestTask3 {
     public void test_27_calculate_student_reduction_applied_reduced_period(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(3);
-        normalRate = new BigDecimal(5);
+        reducedRate = new BigDecimal("3");
+        normalRate = new BigDecimal("5");
         Rate theRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(2,5)),new BigDecimal(8.12));
+        assertEquals(theRate.calculate(new Period(2,5)),new BigDecimal("8.13"));
     }
 
     @Test
     public void test_28_calculate_student_reduction_applied_all_periods(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(3);
-        normalRate = new BigDecimal(5);
+        reducedRate = new BigDecimal("3");
+        normalRate = new BigDecimal("5");
         Rate theRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(4,8)),new BigDecimal(7.37));
+        assertEquals(theRate.calculate(new Period(4,8)),new BigDecimal("9.63"));
     }
 
     @Test
     public void test_28_calculate_student_reduction_not_applied_under_correct_limit(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(3);
-        normalRate = new BigDecimal(5);
+        reducedRate = new BigDecimal("3");
+        normalRate = new BigDecimal("5");
         Rate theRate = new Rate(CarParkKind.STUDENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(2,3)),new BigDecimal(3));
+        assertEquals(theRate.calculate(new Period(2,3)),new BigDecimal("3.00"));
     }
 
 
@@ -292,19 +306,29 @@ public class OCriothaileCillianTestTask3 {
     public void test_29_calculate_staff_max_limit(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(3);
-        normalRate = new BigDecimal(5);
+        reducedRate = new BigDecimal("3");
+        normalRate = new BigDecimal("5");
         Rate theRate = new Rate(CarParkKind.STAFF, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(2,23)),new BigDecimal(16));
+        assertEquals(theRate.calculate(new Period(2,23)),new BigDecimal("16.00"));
     }
 
     @Test
-    public void test_29_calculate_staff_calculates_correctly_under_max_limit(){
+    public void test_30_calculate_staff_calculates_correctly_under_max_limit(){
         reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,6)));
         normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
-        reducedRate = new BigDecimal(3);
-        normalRate = new BigDecimal(5);
+        reducedRate = new BigDecimal("3");
+        normalRate = new BigDecimal("5");
         Rate theRate = new Rate(CarParkKind.STAFF, normalRate, reducedRate, reducedPeriod, normalPeriod);
-        assertEquals(theRate.calculate(new Period(5,8)),new BigDecimal(8));
+        assertEquals(theRate.calculate(new Period(5,8)),new BigDecimal("8.00"));
+    }
+
+    @Test
+    public void test_31_calculate_management_minimum_charge_3_euro_normal(){
+        reducedPeriod = new ArrayList<Period>(Arrays.asList(new Period(1,7)));
+        normalPeriod = new ArrayList<Period>(Arrays.asList( new Period(7,11)));
+        reducedRate = new BigDecimal("1");
+        normalRate = new BigDecimal("2");
+        Rate theRate = new Rate(CarParkKind.MANAGEMENT, normalRate, reducedRate, reducedPeriod, normalPeriod);
+        assertEquals(theRate.calculate(new Period(8,11)),new BigDecimal("6.00"));
     }
 }
